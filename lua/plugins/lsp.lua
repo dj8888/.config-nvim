@@ -225,6 +225,9 @@ return {
 				"stylua", -- Used to format Lua code
 				"clang-format",
 				"codelldb",
+				"html-lsp",
+				"bash-language-server",
+				"typescript-language-server",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

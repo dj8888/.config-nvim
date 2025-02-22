@@ -1,3 +1,4 @@
+vim.g.netrw_liststyle = 3 -- Set Netrw to tree list view by default
 ---- Copied from Primagen ----
 
 vim.opt.number = true

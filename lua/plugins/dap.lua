@@ -1,7 +1,7 @@
 return {
 	{
 		"rcarriga/nvim-dap-ui",
-		event = "verylazy",
+		event = "VeryLazy",
 		dependencies = {
 			"mfussenegger/nvim-dap",
 			"nvim-neotest/nvim-nio",
@@ -35,7 +35,7 @@ return {
 	},
 	{
 		"jay-babu/mason-nvim-dap.nvim",
-		event = "verylazy",
+		event = "VeryLazy",
 		dependencies = {
 			"mfussenegger/nvim-dap",
 			"williamboman/mason.nvim",

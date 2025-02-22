@@ -4,6 +4,7 @@ vim.g.maplocalleader = " "
 
 ----from Primagen----
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex) --open netrw --project view.. opens the root directory in which nvim has started **
+
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]]) --yank to global clipboard
 
 --quickly navigate the quick fix list
@@ -44,3 +45,20 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+
+-- add the hypr/scripts to path in .zshenv for this to work.
+vim.api.nvim_create_autocmd("BufWritePost", {
+	pattern = "*note-*.md",
+	callback = function()
+		vim.cmd("silent !buildNote " .. vim.fn.expand("%:p"))
+	end,
+})
+
+-- PDF preview for Markdown files
+vim.keymap.set("n", "<leader>pd", '<cmd>lua require("devansh_nvim_config.pandoc_zathura").pandoc_zathura()<CR>')
+vim.api.nvim_create_autocmd("BufWritePost", {
+	pattern = "*.md",
+	callback = function()
+		require("devansh_nvim_config.pandoc_zathura").refresh_pdf()
+	end,
+})
