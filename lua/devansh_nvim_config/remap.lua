@@ -44,21 +44,26 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Load all diagnostics into loclist (then <leader>j/k to jump)" })
 
--- add the hypr/scripts to path in .zshenv for this to work.
+-- Build note PDF into ~/Documents/notes/pdf/ on save (no PATH needed).
 vim.api.nvim_create_autocmd("BufWritePost", {
 	pattern = "*note-*.md",
 	callback = function()
-		vim.cmd("silent !buildNote " .. vim.fn.expand("%:p"))
+		local buildNote = vim.fn.expand("~") .. "/.config/hypr/scripts/buildNote"
+		vim.cmd("silent !" .. vim.fn.shellescape(buildNote) .. " " .. vim.fn.shellescape(vim.fn.expand("%:p")))
 	end,
 })
 
--- PDF preview for Markdown files
+-- PDF preview for Markdown files (leader+pd builds beside file, then refresh on save).
+-- Skip note-*.md; those use buildNote and output to ~/Documents/notes/pdf/.
 vim.keymap.set("n", "<leader>pd", '<cmd>lua require("devansh_nvim_config.pandoc_zathura").pandoc_zathura()<CR>')
 vim.api.nvim_create_autocmd("BufWritePost", {
 	pattern = "*.md",
 	callback = function()
+		if vim.fn.expand("%:t"):match("^note%-") then
+			return
+		end
 		require("devansh_nvim_config.pandoc_zathura").refresh_pdf()
 	end,
 })
