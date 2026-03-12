@@ -55,15 +55,30 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	end,
 })
 
--- PDF preview for Markdown files (leader+pd builds beside file, then refresh on save).
+-- PDF preview for Markdown files (leader+pd: buildPDF with Mermaid support; builds beside file, opens Zathura).
 -- Skip note-*.md; those use buildNote and output to ~/Documents/notes/pdf/.
-vim.keymap.set("n", "<leader>pd", '<cmd>lua require("devansh_nvim_config.pandoc_zathura").pandoc_zathura()<CR>')
+-- vim.keymap.set("n", "<leader>pd", '<cmd>lua require("devansh_nvim_config.pandoc_zathura").pandoc_zathura()<CR>')  -- old: pandoc_zathura (no Mermaid)
+vim.keymap.set("n", "<leader>pd", function()
+	local f = vim.fn.expand("%:p")
+	if vim.fn.filereadable(f) == 0 or vim.fn.expand("%:e") ~= "md" then
+		vim.api.nvim_echo({ { "Not a markdown file or file not found.", "Error" } }, true, {})
+		return
+	end
+	local buildPDF = vim.fn.expand("~") .. "/.config/hypr/scripts/buildPDF"
+	vim.cmd("!" .. vim.fn.shellescape(buildPDF) .. " " .. vim.fn.shellescape(f))
+end, { desc = "Build PDF (buildPDF, Mermaid support)" })
+-- On save: rebuild PDF with buildPDF for non-note .md (note-*.md use buildNote above).
 vim.api.nvim_create_autocmd("BufWritePost", {
 	pattern = "*.md",
 	callback = function()
 		if vim.fn.expand("%:t"):match("^note%-") then
 			return
 		end
-		require("devansh_nvim_config.pandoc_zathura").refresh_pdf()
+		local f = vim.fn.expand("%:p")
+		if vim.fn.filereadable(f) == 0 then
+			return
+		end
+		local buildPDF = vim.fn.expand("~") .. "/.config/hypr/scripts/buildPDF"
+		vim.fn.jobstart({ "sh", "-c", vim.fn.shellescape(buildPDF) .. " " .. vim.fn.shellescape(f) }, { detach = true })
 	end,
 })
