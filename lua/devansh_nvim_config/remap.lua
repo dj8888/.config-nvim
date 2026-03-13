@@ -66,12 +66,16 @@ vim.keymap.set("n", "<leader>pd", function()
 	end
 	local buildPDF = vim.fn.expand("~") .. "/.config/hypr/scripts/buildPDF"
 	vim.cmd("!" .. vim.fn.shellescape(buildPDF) .. " " .. vim.fn.shellescape(f))
+	vim.b.buildpdf_refresh_on_save = true -- refresh this buffer's PDF on subsequent :w
 end, { desc = "Build PDF (buildPDF, Mermaid support)" })
--- On save: rebuild PDF with buildPDF for non-note .md (note-*.md use buildNote above).
+-- On save: rebuild PDF only for non-note .md buffers where leader+pd was already run.
 vim.api.nvim_create_autocmd("BufWritePost", {
 	pattern = "*.md",
 	callback = function()
 		if vim.fn.expand("%:t"):match("^note%-") then
+			return
+		end
+		if not vim.b.buildpdf_refresh_on_save then
 			return
 		end
 		local f = vim.fn.expand("%:p")
