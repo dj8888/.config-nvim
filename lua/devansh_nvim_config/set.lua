@@ -20,6 +20,10 @@ vim.opt.undofile = true
 
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
+-- Make searches case-insensitive by default, but smartcase adds sensitivity
+-- when the search pattern contains uppercase characters.
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 --vim.opt.signcolumn = "yes"
 --vim.opt.isfname:append("@-@")
