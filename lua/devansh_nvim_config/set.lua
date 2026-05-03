@@ -1,4 +1,6 @@
 vim.g.netrw_liststyle = 3 -- Set Netrw to tree list view by default
+vim.g.have_nerd_font = true
+
 ---- Copied from Primagen ----
 
 vim.opt.number = true
@@ -25,7 +27,7 @@ vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
---vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "yes"
 --vim.opt.isfname:append("@-@")
 --
 --vim.opt.updatetime = 50
@@ -38,6 +40,12 @@ vim.opt.showmode = false
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 -- Highlight when yanking (copying) text Try it with `yap` in normal mode See `:help vim.highlight.on_yank()`
+-- Auto-reload files changed outside nvim (e.g. by Claude Code)
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+	command = "checktime",
+})
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
