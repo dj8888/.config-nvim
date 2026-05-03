@@ -22,13 +22,13 @@ return {
 			vim.api.nvim_set_keymap(
 				"n",
 				"<leader>db",
-				"<cmd>daptogglebreakpoint<cr>",
+				"<cmd>DapToggleBreakpoint<cr>",
 				{ noremap = true, silent = true, desc = "dap: add breakpoint at line" }
 			)
 			vim.api.nvim_set_keymap(
 				"n",
 				"<leader>dr",
-				"<cmd>dapcontinue<cr>",
+				"<cmd>DapContinue<cr>",
 				{ noremap = true, silent = true, desc = "dap: start or continue the debugger" }
 			)
 		end,
