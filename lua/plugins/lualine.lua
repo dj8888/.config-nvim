@@ -14,7 +14,7 @@ return {
 				},
 				ignore_focus = {},
 				always_divide_middle = true,
-				always_show_tabline = true,
+				always_show_tabline = false,
 				globalstatus = false,
 				refresh = {
 					statusline = 100,
@@ -38,7 +38,18 @@ return {
 				lualine_y = {},
 				lualine_z = {},
 			},
-			tabline = {},
+			tabline = {
+				lualine_c = { {
+					"tabs",
+					mode = 2,
+					separator = { left = "│", right = "" },
+					padding = { left = 1, right = 1 },
+					tabs_color = {
+						active = "lualine_a_normal",
+						inactive = "lualine_c_normal",
+					},
+				} },
+			},
 			winbar = {},
 			inactive_winbar = {},
 			extensions = {},
