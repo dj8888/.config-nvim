@@ -50,6 +50,14 @@ return {
 			vim.api.nvim_set_hl(0, "StatusLineSectionZ", { fg = k.bg, bg = k.blue, bold = true })   -- location
 		end,
 	},
+	{
+		"stevearc/oil.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("oil").setup({ default_file_explorer = false })
+			vim.keymap.set("n", "<leader>-", "<cmd>Oil<CR>", { desc = "Oil: open parent directory" })
+		end,
+	},
 	"mbbill/undotree",
 	{
 		"tpope/vim-fugitive",
