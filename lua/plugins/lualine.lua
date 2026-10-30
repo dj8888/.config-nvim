@@ -2,10 +2,41 @@ return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
+		-- pure black, matching kitty/waybar/swaync (nord accent colors on #000000)
+		local black = "#000000"
+		local fg = "#D8DEE9"
+		local dim = "#4C566A"
+		local blue = "#81A1C1"
+		local green = "#A3BE8C"
+		local yellow = "#EBCB8B"
+		local red = "#BF616A"
+		local magenta = "#B48EAD"
+
+		local function mode(accent)
+			return {
+				a = { fg = black, bg = accent, gui = "bold" },
+				b = { fg = accent, bg = black },
+				c = { fg = fg, bg = black },
+			}
+		end
+
+		local theme = {
+			normal = mode(blue),
+			insert = mode(green),
+			visual = mode(magenta),
+			replace = mode(red),
+			command = mode(yellow),
+			inactive = {
+				a = { fg = dim, bg = black },
+				b = { fg = dim, bg = black },
+				c = { fg = dim, bg = black },
+			},
+		}
+
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
-				theme = "auto",
+				theme = theme,
 				component_separators = { left = "", right = "" },
 				section_separators = { left = "", right = "" },
 				disabled_filetypes = {
